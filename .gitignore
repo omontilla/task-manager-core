@@ -1,9 +1,4 @@
 
-# Created by https://www.gitignore.io/api/java,linux,macos,gradle,windows,eclipse,java-web,netbeans,code-java,sublimetext,intellij+all,visualstudio,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=java,linux,macos,gradle,windows,eclipse,java-web,netbeans,code-java,sublimetext,intellij+all,visualstudio,visualstudiocode
-
-### Code-Java ###
-# Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
 
 .project
 .classpath
@@ -21,6 +16,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.env
+
 
 # External tool builders
 .externalToolBuilders/
