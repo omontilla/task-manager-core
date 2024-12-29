@@ -17,3 +17,6 @@ config();
   exports: [MongooseModule],
 })
 export class DatabaseModule {}
+console.log(process.env.MONGO_URL);
+console.log(process.env.MONGOUSER);
+console.log(process.env.MONGOPASSWORD);
