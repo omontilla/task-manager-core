@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import {config} from 'dotenv';
+import * as fs from 'fs';
+import { config } from 'dotenv';
 
-config();
+if (fs.existsSync('.env')) {
+  config();
+}
 
 @Module({
   imports: [
@@ -11,6 +14,8 @@ config();
         uri: process.env.MONGO_URL,
         user: process.env.MONGOUSER,
         pass: process.env.MONGOPASSWORD,
+        retryAttempts: 5,
+        retryDelay:3000,
       }),
     }),
   ],
