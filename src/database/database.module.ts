@@ -11,9 +11,9 @@ if (fs.existsSync('.env')) {
   imports: [
     MongooseModule.forRootAsync({
       useFactory: async () => ({
-        uri: process.env.MONGO_URL  || "mongodb://mongo:JKevIIuFiLeOXIibRVunsHtQCWMFtJfm@mongodb.railway.internal:27017",
-        user: process.env.MONGOUSER || "mongo",
-        pass: process.env.MONGOPASSWORD || "JKevIIuFiLeOXIibRVunsHtQCWMFtJfm",
+        uri: process.env.MONGO_URL,
+        user: process.env.MONGOUSER,
+        pass: process.env.MONGOPASSWORD,
         retryAttempts: 5,
         retryDelay:3000,
       }),
