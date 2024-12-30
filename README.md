@@ -66,7 +66,6 @@ Ejemplo de configuración.env:
 
 Despliegue en producción
 
-La aplicación está configurada para ser desplegada en plataformas como Railway. Asegúrate de configurar las variables de entorno necesarias en el entorno de despliegue.
 *	Swagger en producción: La documentación de la API está disponible en:
 https://task-manager-core-production.up.railway.app/api/docs
 
