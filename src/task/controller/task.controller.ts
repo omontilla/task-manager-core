@@ -6,16 +6,16 @@ import {
   Patch,
   Param,
   Delete,
-  Put,
-} from '@nestjs/common';
-import { TaskService } from './task.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+  Query
+} from "@nestjs/common";
+import { TaskService } from '../service/task.service';
+import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskDto } from '../dto/update-task.dto';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Task } from "./schema/task.schema";
+import { Task } from "../schema/task.schema";
 
 @ApiTags('task')
-@Controller('task')
+@Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
@@ -33,10 +33,22 @@ export class TaskController {
   @ApiOperation({ summary: 'Obtener todas las tareas filtradas y ordenadas' })
   @ApiResponse({ status: 200, description: 'Lista de tareas', type: [Task] })
   @ApiQuery({
-    name: 'status',
+    name: 'Estatus',
     required: false,
     description: 'Filtra las tareas por su estado',
     type: Boolean,
+  })
+  @ApiQuery({
+    name: 'title_like',
+    required: false,
+    description: 'Filtra las tareas por título',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'description_like',
+    required: false,
+    description: 'Filtra las tareas por descripción',
+    type: String,
   })
   @ApiQuery({
     name: 'sortBy',
@@ -49,11 +61,18 @@ export class TaskController {
     required: false,
     description: 'Orden de clasificación: asc o desc',
     type: String,
-    enum: ['asc','desc'],
+    enum: ['asc', 'desc'],
   })
-  findAll() {
-    return this.taskService.findAll();
+  async findAll(
+    @Query('Estatus') status: boolean,
+    @Query('title_like') titleLike: string,
+    @Query('description_like') descriptionLike: string,
+    @Query('_sort') sortBy: string,
+    @Query('_order') sortOrder: 'asc' | 'desc',
+  ) {
+    return this.taskService.findAll({ status, titleLike, descriptionLike }, sortBy, sortOrder);
   }
+
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener una tarea por ID' })

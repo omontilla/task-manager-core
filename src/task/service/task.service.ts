@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './schema/task.schema';
+import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskDto } from '../dto/update-task.dto';
+import { Task } from '../schema/task.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 
@@ -20,15 +20,37 @@ export class TaskService {
     return await newTask.save();
   }
 
-  async findAll(filter: Record<string, any> = {}, sortBy: string = '', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Task[]> {
-    const query = this.taskModel.find(filter);
+  async findAll(
+    filter: Record<string, any> = {},
+    sortBy: string = '',
+    sortOrder: 'asc' | 'desc' = 'asc',
+  ): Promise<Task[]> {
+    const query: Record<string, any> = {};
 
-    if (sortBy) {
-      query.sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 });
+    if (filter.status !== undefined) {
+      query.completed = filter.status;
     }
 
-    return await query.exec();
+    if (filter.titleLike) {
+      query.title = { $regex: filter.titleLike, $options: 'i' };
+    }
+
+    if (filter.descriptionLike) {
+      query.description = { $regex: filter.descriptionLike, $options: 'i' };
+    }
+
+    const mongooseQuery = this.taskModel.find(query);
+
+    if (sortBy) {
+      if (['title', 'description', 'completed', 'createdAt'].includes(sortBy)) {
+        mongooseQuery.sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 });
+      } else {
+        mongooseQuery.sort({ createdAt: sortOrder === 'asc' ? 1 : -1 });
+      }
+    }
+    return await mongooseQuery.exec();
   }
+
 
   async findOne(id: string): Promise<Task | null> {
     return this.taskValidation(id);

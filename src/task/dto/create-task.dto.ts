@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 
 export class CreateTaskDto {
-  @ApiProperty({ description: 'Título de la tarea', example: 'Comprar leche' })
+  @ApiProperty({ description: 'Título de la tarea', example: 'Comprar' })
   @IsString({ message: 'El título debe ser una cadena de texto' })
   @MaxLength(10, { message: 'El título no puede tener más de 10 caracteres' })
   @Matches(/^[a-zA-Z0-9 ]*$/, {

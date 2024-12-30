@@ -24,7 +24,7 @@ export const TaskSchema = SchemaFactory.createForClass(Task);
 
 TaskSchema.set('toJSON', {
   virtuals: true,
-  transform: function (doc, ret) {
+  transform: function (ret) {
     delete ret.__v;
     delete ret._id;
     id: ret._id;
