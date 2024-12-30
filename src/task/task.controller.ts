@@ -14,8 +14,8 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Task } from "./schema/task.schema";
 
-@ApiTags('tasks')
-@Controller('tasks')
+@ApiTags('task')
+@Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
@@ -63,7 +63,7 @@ export class TaskController {
     return this.taskService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({ summary: 'Actualizar una tarea por ID' })
   @ApiResponse({ status: 200, description: 'La tarea fue actualizada.' })
   @ApiResponse({ status: 404, description: 'Tarea no encontrada.' })

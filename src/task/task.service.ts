@@ -16,18 +16,18 @@ export class TaskService {
   constructor(@InjectModel(Task.name) private readonly taskModel: Model<Task>) {}
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
-      const newTask = new this.taskModel(createTaskDto);
-      return await newTask.save();
+    const newTask = new this.taskModel(createTaskDto);
+    return await newTask.save();
   }
 
   async findAll(filter: Record<string, any> = {}, sortBy: string = '', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Task[]> {
-      const query = this.taskModel.find(filter);
+    const query = this.taskModel.find(filter);
 
-      if (sortBy) {
-        query.sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 });
-      }
+    if (sortBy) {
+      query.sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 });
+    }
 
-      return await query.exec();
+    return await query.exec();
   }
 
   async findOne(id: string): Promise<Task | null> {
@@ -41,7 +41,7 @@ export class TaskService {
 
   async remove(id: string) {
     const taskDB = await this.taskValidation(id);
-      await this.taskModel.findByIdAndDelete(taskDB.id).exec();
+    await this.taskModel.findByIdAndDelete(taskDB.id).exec();
   }
 
   private async taskValidation(id: string): Promise<Task> {
